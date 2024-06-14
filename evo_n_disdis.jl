@@ -2,7 +2,7 @@
 #Desciption: dissipation & free evolution & dissipation
 #authur: Yue Wu
 #Date: 2024/6/14
-#Email:y-wu19@mails.tsinghua.edu.cn
+#Email:y-wu23@mails.tsinghua.edu.cn
 
 using DifferentialEquations
 using FFTW
