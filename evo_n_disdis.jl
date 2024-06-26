@@ -181,7 +181,7 @@ end
 Nex_t = Array{Complex{Float64}}(undef,point+1)
 N0_t = Array{Complex{Float64}}(undef,point+1)
 
-prob = ODEProblem(GPevolutiondis, rvec0, tspandis*2) # set the problem: Hamiltonian, initial state, and time range
+prob = ODEProblem(GPevolutiondis, rvec0, tspandis) # set the problem: Hamiltonian, initial state, and time range
 sol = solve(prob) #BS3() is the integrator, you can check for other integrators in the doc
 rvec0 = sol.u[end]
 nex = rvec0[2,:,:]
