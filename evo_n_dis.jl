@@ -16,7 +16,7 @@ using CSV
 
 #-----------------------import data----------------------------
 
-for i_omega in 5:9
+for i_omega in 1:9
     omega = 40 + 5*(i_omega-1)
     Zmax = 10.0     # Grid half length
     Npoint = 128    # Number of grid points
