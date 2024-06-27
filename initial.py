@@ -1,10 +1,8 @@
 # -*- encoding: utf-8 -*-
-'''
-@Desciption: Generating the wavefunction of condensate and thermal parts in equilibrium
-@authur: Yue Wu
-@Date: 2024/6/14
-@Email:y-wu23@mails.tsinghua.edu.cn
-'''
+#Desciption: Generating the wavefunction of condensate and thermal parts in equilibrium
+#authur: Yue Wu
+#Date: 2024/6/14
+#Email:y-wu23@mails.tsinghua.edu.cn
 
 import numpy as np
 from numpy.linalg import eig, eigh
