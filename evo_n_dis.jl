@@ -14,9 +14,9 @@ using GR
 using DataFrames
 using CSV
 
-#-----------------------import data----------------------------
-
 for i_omega in 1:9
+    #-----------------------import data----------------------------
+    
     omega = 40 + 5*(i_omega-1)
     Zmax = 10.0     # Grid half length
     Npoint = 128    # Number of grid points
@@ -42,7 +42,7 @@ for i_omega in 1:9
     grid_z = -div(Npoint,2):div(Npoint,2)-1
     z = Dz * grid_z
     zp = fftshift(z); # for FFT order: Swap the first and second halves of the vector 
-    #
+    
     # momentum grid
     kp = Dk * grid_z
     kp = fftshift(kp);
@@ -152,7 +152,6 @@ for i_omega in 1:9
         end
         Hu_position = zeros(Npoint,Npoint)*im
         Hu_momentum = zeros(Npoint,Npoint)*im
-        #
         for i=1:Npoint
             Hu_position[i,:] += @.((-mu + Vpot_R + 2*g_s*abs2.(phi) + 2*g_s*nex)*_ns[i,:] + (g_s*phi^2+g_s*ns)*_nex[:,i] - im*1/2*s*gamma2*_ns[i,:] - im*1/2*s*gamma2*_ns[:,i])
             Hu_position[:,i] += @.((-mu + Vpot_R + 2*g_s*abs2.(phi) + 2*g_s*nex)*_ns[:,i] + (g_s*phi^2+g_s*ns)*_nex[:,i])
@@ -161,32 +160,8 @@ for i_omega in 1:9
             u_k = fft(_ns[:,i])
             Hu_momentum[:,i] += ifft(Ekin_K .* u_k) 
         end
-        #Hu_ = zeros(Npoint)*im
-        #for i=1:Npoint
-        #    Hu_[i] = Hu_momentum[i,i]
-        #end
-        #plot(zp,real.(Hu_))
-        #savefig("Hu_Hu2.png")
         return  -im *(Hu_momentum .+ Hu_position)
     end
-
-    #=
-    plot(zp,imag.(Hamiltonian_phi(rvec0[1,:,:],rvec0[2,:,:],rvec0[3,:,:])[1,:]))
-    savefig("Hphi.png")
-
-    _Hnex = Hamiltonian_nex(rvec0[1,:,:],rvec0[2,:,:],rvec0[3,:,:])
-    _Hns = Hamiltonian_ns(rvec0[1,:,:],rvec0[2,:,:],rvec0[3,:,:])
-    Hnex = zeros(Npoint)*im
-    Hns = zeros(Npoint)*im
-    for i=1:Npoint
-        Hnex[i] = _Hnex[1,i]
-        Hns[i] = _Hns[1,i]
-    end
-    plot(zp,imag.(Hnex))
-    savefig("Hnex.png")
-    plot(zp,imag.(Hns))
-    savefig("Hns.png")
-    =#
 
     function GPevolutiondis(dvec, vec, p, t)
         dvec[1,:,:] = Hamiltonian_phi(vec[1,:,:],vec[2,:,:],vec[3,:,:],1)
@@ -204,7 +179,6 @@ for i_omega in 1:9
     prob = ODEProblem(GPevolutiondis, rvec0, tspandis) # set the problem: Hamiltonian, initial state, and time range
     sol = solve(prob,saveat=0.001) #BS3() is the integrator, you can check for other integrators in the doc
 
-    # print(sol.t)
     Nex_t = Array{Complex{Float64}}(undef,size(sol.t))
     N0_t = Array{Complex{Float64}}(undef,size(sol.t))
     for i = 1:size(sol.t)[1]
